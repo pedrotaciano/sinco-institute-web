@@ -233,7 +233,9 @@ function atualizarTrilha() {
 // ---------- temas ----------
 // As cores de cada tema estão no CSS ([data-tema="…"]); aqui só a ordem e os nomes.
 
+// o primeiro é o padrão (o mesmo do data-tema no <html>)
 const TEMAS = [
+  { id: "chumbo", nome: { en: "lead", pt: "chumbo" } },
   { id: "cinza", nome: { en: "grey", pt: "cinza" } },
   { id: "terra", nome: { en: "earth", pt: "terra" } },
   { id: "creme", nome: { en: "cream", pt: "creme" } },
@@ -242,13 +244,12 @@ const TEMAS = [
   { id: "neblina", nome: { en: "fog", pt: "neblina" } },
   { id: "papel", nome: { en: "paper", pt: "papel" } },
   { id: "laranja", nome: { en: "orange", pt: "laranja" } },
-  { id: "chumbo", nome: { en: "lead", pt: "chumbo" } },
   { id: "tabaco", nome: { en: "tobacco", pt: "tabaco" } },
   { id: "cianotipia", nome: { en: "cyanotype", pt: "cianotipia" } },
   { id: "noite", nome: { en: "night", pt: "noite" } },
 ];
 
-const temaAtual = () => document.documentElement.dataset.tema || "cinza";
+const temaAtual = () => document.documentElement.dataset.tema || TEMAS[0].id;
 
 function montarTweak() {
   const labs = ["software", "hardware", "social", "surfistas"].map((l) => `<i style="background:var(--lab-${l})"></i>`).join("");
@@ -264,8 +265,7 @@ let avisoTimer;
 function aplicarTema(id, mostrar = false) {
   const tema = TEMAS.find((t) => t.id === id) || TEMAS[0];
   const raiz = document.documentElement;
-  if (tema.id === "cinza") delete raiz.dataset.tema;
-  else raiz.dataset.tema = tema.id;
+  raiz.dataset.tema = tema.id;
   sessionStorage.setItem("sinco:tema", tema.id);
   document.querySelectorAll("[data-escolher]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.escolher === tema.id)));
   $('meta[name="theme-color"]').content = getComputedStyle(raiz).getPropertyValue("--fundo").trim();
@@ -328,7 +328,7 @@ secoes.forEach((s) => observaSecoes.observe(s));
 
 // ---------- início ----------
 
-aplicarTema(document.documentElement.dataset.tema || "cinza");
+aplicarTema(temaAtual());
 medirHeroi();
 aplicarLingua();
 carregarBiblioteca();

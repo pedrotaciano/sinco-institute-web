@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-tema="chumbo">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>sinco institute ©</title>
     <meta name="description" content="sinco institute is developing a new philosophy of work: work that adapts to the creativity of whoever does it." />
     <script>
-      // tema antes de pintar, para não piscar: ?tema=… ou o escolhido nesta sessão; o padrão é cinza
+      // tema antes de pintar, para não piscar: ?tema=… ou o escolhido nesta sessão; o padrão é chumbo
       (() => {
         const tema = new URLSearchParams(location.search).get("tema") || sessionStorage.getItem("sinco:tema");
-        if (tema && tema !== "cinza") document.documentElement.dataset.tema = tema;
+        if (tema) document.documentElement.dataset.tema = tema;
       })();
     </script>
     <meta property="og:image" content="assets/og.avif" />
-    <meta name="theme-color" content="#ecebe7" />
+    <meta name="theme-color" content="#4b4d4f" />
     <link rel="icon" href="assets/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
