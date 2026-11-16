@@ -19,14 +19,14 @@ const LABS = [
   {
     nome: "sinco social",
     cor: "var(--lab-social)", // ocre
-    texto: "Communities and cultures: work as something done with other people.",
+    texto: "A zero-trust social network, against platforms that concentrate power in a few hands and turn people into machine minders — what Schumacher warned about fifty years ago.",
     link: "https://www.are.na/sinco-institute/sinco-social",
     rotuloLink: "are.na ↗",
   },
   {
     nome: "sinco surfistas",
     cor: "var(--lab-surfistas)", // mar
-    texto: "A community of surfers.",
+    texto: "A counterculture page on Instagram.",
     link: "https://www.are.na/sinco-institute/sinco-surfistas",
     rotuloLink: "are.na ↗",
   },
