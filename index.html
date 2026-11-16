@@ -2,40 +2,253 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>sinco institute ©</title>
-    <meta name="description" content="design & development of community-driven software & hardware" />
-    <link rel="icon" href="assets/favicon.ico" />
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="description" content="sinco institute is developing a new philosophy of work: work that adapts to the creativity of whoever does it." />
+    <script>
+      // tema antes de pintar, para não piscar: ?tema=… ou o escolhido nesta sessão; o padrão é cinza
+      (() => {
+        const tema = new URLSearchParams(location.search).get("tema") || sessionStorage.getItem("sinco:tema");
+        if (tema && tema !== "cinza") document.documentElement.dataset.tema = tema;
+      })();
+    </script>
     <meta property="og:image" content="assets/og.avif" />
+    <meta name="theme-color" content="#ecebe7" />
+    <link rel="icon" href="assets/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Inter:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="main.js" defer></script>
   </head>
   <body>
-    <header>
-      <h4>sinco institute &copy</h4>
+    <header class="topo">
+      <a class="pilula trilha mono" id="trilha" href="#topo">sinco / <span id="trilha-secao"></span></a>
+
+      <nav class="marca" aria-label="sinco institute">
+        <a class="pilula nome" href="#topo">sinco institute</a>
+        <button class="pilula mais" type="button" popovertarget="menu" aria-label="menu">···</button>
+      </nav>
+
+      <div class="linguas mono" role="group" aria-label="language">
+        <button type="button" data-lingua="en" aria-pressed="true">EN</button>
+        <button type="button" data-lingua="pt" aria-pressed="false">PT</button>
+        <button class="tweak-botao" type="button" popovertarget="tweak" aria-label="theme"><span aria-hidden="true"></span></button>
+      </div>
     </header>
 
-    <main>
-      <section id="hero">
-        <div class="hero-a">
-          <img src="assets/logo.svg" alt="Sinco Institute Logo" class="logo" />
-          <div class="hero-image"></div>
-        </div>
-        <div class="hero-b">
-          <div class="text-container">
+    <div class="menu" id="menu" popover>
+      <ol>
+        <li><a href="#quem-somos"><span class="mono">1.</span> <b data-pt="quem somos">who we are</b></a></li>
+        <li><a href="#trabalho"><span class="mono">2.</span> <b data-pt="trabalho">work</b></a></li>
+        <li><a href="#ferramentas"><span class="mono">3.</span> <b data-pt="ferramentas">tools</b></a></li>
+        <li><a href="#educacao"><span class="mono">4.</span> <b data-pt="educação">education</b></a></li>
+        <li><a href="#propriedade"><span class="mono">5.</span> <b data-pt="propriedade">ownership</b></a></li>
+        <li><a href="#labs"><span class="mono">6.</span> <b data-pt="laboratórios">labs</b></a></li>
+        <li><a href="#biblioteca"><span class="mono">7.</span> <b data-pt="biblioteca">library</b></a></li>
+        <li><a href="https://www.are.na/sinco-institute" target="_blank" rel="noopener"><span class="mono">↗</span> <b>are.na</b></a></li>
+      </ol>
+    </div>
 
-            <h3>
-              we design & develop communities. <br />
-              cultures.<br />
-              software. <br />
-              hardware.
-          </h3>
-          
-          <!-- <h3>
-            <u>manifesto.</u>
-          </h3> -->
-        </div>
+    <div class="tweak" id="tweak" popover>
+      <p class="tweak-cabeca mono"><span data-pt="tema">theme</span> <span><kbd>T</kbd> <span data-pt="alterna">cycles</span></span></p>
+      <ul class="tweak-lista" id="tweak-lista"></ul>
+    </div>
+
+    <p class="aviso-tema mono" id="aviso-tema" aria-live="polite"></p>
+
+    <section class="heroi" id="topo" aria-label="sinco institute">
+      <div class="palco">
+        <svg class="selo" id="selo" viewBox="0 0 55.5366 22" aria-hidden="true">
+          <defs>
+            <path id="sinco" d="M18.5277 0C19.434 0 20.3032 0.359264 20.9441 0.99874L25.1626 5.20813C26.6026 6.64503 28.934 6.64503 30.374 5.20813L34.5925 0.99874C35.2334 0.359264 36.1026 0 37.0089 0H55.5366V4.49598H38.6131C37.8746 4.49598 37.1664 4.78872 36.6442 5.30977L33.5713 8.37602C32.1269 9.81732 32.1269 12.1574 33.5713 13.5987L36.6695 16.6902C37.1917 17.2113 37.8999 17.504 38.6384 17.504H55.5366V22H37.0342C36.1421 22 35.2858 21.6519 34.648 21.0311L34.6178 21.0013L30.374 16.7666C28.934 15.3297 26.6026 15.3297 25.1626 16.7666L20.9188 21.0013L20.8886 21.0311C20.2507 21.6519 19.3945 22 18.5024 22H0V17.504H17.5692C17.878 17.504 18.1742 17.3816 18.3926 17.1637L21.9653 13.5987C23.4097 12.1574 23.4097 9.81732 21.9653 8.37602L18.8924 5.30977C18.3702 4.78872 17.662 4.49598 16.9235 4.49598H0V0H18.5277Z" />
+            <clipPath id="corte-e"><rect x="-1" y="-1" width="28.92" height="24" /></clipPath>
+            <clipPath id="corte-d"><rect x="27.62" y="-1" width="28.92" height="24" /></clipPath>
+          </defs>
+          <g class="metade" id="selo-e"><use href="#sinco" clip-path="url(#corte-e)" /></g>
+          <g class="metade" id="selo-d"><use href="#sinco" clip-path="url(#corte-d)" /></g>
+        </svg>
+        <h1 class="frase" data-pt="a sinco desenvolve uma nova filosofia do trabalho.">sinco institute is developing a new philosophy of work.</h1>
+      </div>
+
+      <div class="heroi-base">
+        <a class="pergunta" href="#quem-somos">
+          <span class="pergunta-texto"><span data-pt="quero entender">i want to understand</span> <b data-pt="a sinco">sinco</b></span>
+          <span class="pergunta-mais" aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </section>
+
+    <main class="leitura">
+      <section class="secao" id="quem-somos" data-secao="who we are" data-secao-pt="quem somos">
+        <p class="secao-rotulo mono" data-pt="Quem somos">Who we are</p>
+        <h2 class="secao-titulo" data-pt="Acreditamos que o trabalho deve se adaptar à criatividade de quem trabalha, e não o contrário. A sinco projeta e desenvolve as ferramentas, os objetos e as comunidades que tornam isso possível.">
+          We believe work should adapt to the creativity of whoever does it, and not the other way around. sinco institute designs and develops the tools, objects and communities that make that possible.
+        </h2>
+        <div class="secao-corpo">
+          <figure class="secao-foto">
+            <img src="assets/ref/campo-6-1100.jpg" width="1015" height="1246" alt="A golden spiral drawn on a lawn, seen from above" loading="lazy" decoding="async" />
+            <figcaption class="mono" data-pt="Espiral áurea num gramado — foto de referência">Golden spiral on a lawn — reference photo</figcaption>
+          </figure>
+          <div class="secao-texto">
+            <p data-pt="A crença dominante do nosso tempo é que a paz e o bem-estar virão de produzir cada vez mais: mais velocidade, mais escala, mais consumo. Schumacher duvidava disso há cinquenta anos, e nós continuamos duvidando. Um modo de vida que não para de multiplicar desejos, e organiza as pessoas em torno das máquinas para satisfazê-los, não tem permanência.">
+              The dominant modern belief is that peace and well-being will come from producing ever more: more speed, more scale, more consumption. Schumacher doubted it fifty years ago, and we doubt it still. A way of life that keeps multiplying its wants, and arranges people around machines to satisfy them, has no permanence.
+            </p>
+            <p data-pt="Com a automação e a inteligência artificial, a velha pergunta volta: quem se adapta a quem? Achamos que a tecnologia deveria fazer o contrário do que costuma fazer — aliviar o peso que as pessoas carregam e deixar mais espaço para o que só as pessoas fazem.">
+              With automation and artificial intelligence, the old question returns: who adapts to whom? We think technology should do the opposite of what it usually does — lighten the burden people carry, and leave more room for what only people can do.
+            </p>
+            <p data-pt="Somos da natureza, não estamos acima dela. Por isso o que fazemos é pequeno, aberto e feito para durar.">
+              We are of nature, not above it. That is why what we make is small, open and made to last.
+            </p>
+            <blockquote>
+              <p data-pt="“A sabedoria exige uma nova orientação da ciência e da tecnologia: para o orgânico, o suave, o não violento, o elegante e o belo.”">“Wisdom demands a new orientation of science and technology towards the organic, the gentle, the non-violent, the elegant and beautiful.”</p>
+              <cite class="mono" data-pt="E. F. Schumacher, <em>O negócio é ser pequeno</em>, cap. 2">E. F. Schumacher, <em>Small Is Beautiful</em>, ch. 2</cite>
+            </blockquote>
+          </div>
         </div>
       </section>
+
+      <section class="secao" id="trabalho" data-secao="work" data-secao-pt="trabalho">
+        <p class="secao-rotulo mono" data-pt="Trabalho">Work</p>
+        <h2 class="secao-titulo" data-pt="O trabalho não é um custo a ser cortado. É onde a pessoa desenvolve seus dons, encontra os outros e faz o que uma vida digna precisa.">
+          Work is not a cost to be cut. It is where a person develops their gifts, meets other people, and makes what a good life needs.
+        </h2>
+        <div class="secao-corpo">
+          <blockquote class="secao-citacao">
+            <p data-pt="“A função do trabalho [é] pelo menos tripla: dar ao homem a chance de usar e desenvolver suas faculdades; permitir que ele supere o egocentrismo, juntando-se a outras pessoas numa tarefa comum; e produzir os bens e serviços necessários a uma existência digna.”">“The function of work [is] at least threefold: to give a man a chance to utilise and develop his faculties; to enable him to overcome his egocentredness by joining with other people in a common task; and to bring forth the goods and services needed for a becoming existence.”</p>
+            <cite class="mono" data-pt="E. F. Schumacher, <em>O negócio é ser pequeno</em>, cap. 4">E. F. Schumacher, <em>Small Is Beautiful</em>, ch. 4</cite>
+          </blockquote>
+          <div class="secao-texto">
+            <p data-pt="Organizar o trabalho de modo que ele se torne “sem sentido, entediante, embrutecedor ou angustiante para quem trabalha”, escreveu Schumacher, “seria pouco menos que criminoso”: mostraria mais cuidado com as coisas do que com as pessoas. A maior parte do trabalho ainda é organizada assim, e boa parte da nova automação só a deixa mais rápida.">
+              To organize work so that it becomes “meaningless, boring, stultifying, or nerve-racking for the worker”, Schumacher wrote, “would be little short of criminal”: it would show a greater concern with goods than with people. Most work is still organized this way, and much of the new automation only makes it faster.
+            </p>
+            <p data-pt="Em 1891, a <em>Rerum Novarum</em> de Leão XIII colocou no centro a dignidade do trabalho e do trabalhador. Em 1981, João Paulo II escreveu na <em>Laborem Exercens</em> que o trabalho é “para o homem”, e não o homem “para o trabalho”.">
+              In 1891, Leo XIII’s <em>Rerum Novarum</em> put the dignity of work and of workers at the center. In 1981, John Paul II wrote in <em>Laborem Exercens</em> that work is “for man”, and not man “for work”.
+            </p>
+            <p data-pt="Em 2026, a <em>Magnifica Humanitas</em> de Leão XIV alerta que a IA muitas vezes força quem trabalha a se adaptar à velocidade e às exigências das máquinas, em vez de as máquinas serem projetadas para apoiar quem trabalha.">
+              In 2026, Leo XIV’s <em>Magnifica Humanitas</em> warns that AI often forces workers to adapt to the speed and demands of machines, rather than machines being designed to support those who work.
+            </p>
+            <p data-pt="Tradições diferentes, uma mesma conclusão: a pessoa vem primeiro. O caráter, escreveu Schumacher, se forma sobretudo pelo trabalho. A forma do trabalho não é um detalhe técnico; é a forma de uma vida.">
+              Different traditions, one conclusion: the person comes first. Character, Schumacher wrote, is formed primarily by work. The shape of work is not a technical detail; it is the shape of a life.
+            </p>
+            <blockquote>
+              <p data-pt="“Toda escolha de design reflete uma visão de humanidade.”">“Every design choice reflects a vision of humanity.”</p>
+              <cite class="mono">Magnifica Humanitas §111</cite>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="secao" id="ferramentas" data-secao="tools" data-secao-pt="ferramentas">
+        <p class="secao-rotulo mono" data-pt="Ferramentas">Tools</p>
+        <h2 class="secao-titulo" data-pt="Schumacher pedia métodos e equipamentos baratos o bastante para serem acessíveis a praticamente todos, adequados à pequena escala e compatíveis com a necessidade humana de criatividade. Esse é o nosso briefing.">
+          Schumacher asked for methods and equipment cheap enough to be accessible to virtually everyone, suitable for small-scale application, and compatible with man’s need for creativity. That is our brief.
+        </h2>
+        <div class="secao-corpo">
+          <figure class="secao-foto">
+            <img src="assets/ref/campo-5-1100.jpg" width="1100" height="1375" alt="A gloved hand raised in front of a green cliff over the sea" loading="lazy" decoding="async" />
+            <figcaption class="mono" data-pt="Costa — foto de referência">Coast — reference photo</figcaption>
+          </figure>
+          <div class="secao-texto">
+            <p data-pt="“A tarefa primeira da tecnologia, ao que parece”, ele escreveu, “é aliviar o peso do trabalho que o homem precisa carregar para se manter vivo e desenvolver seu potencial.” Muitas vezes ela faz o contrário: substitui as mãos e o juízo, e deixa as pessoas vigiando a máquina.">
+              “The primary task of technology, it would seem,” he wrote, “is to lighten the burden of work man has to carry in order to stay alive and develop his potential.” Too often it does the reverse: it replaces the hands and the judgment, and leaves people minding the machine.
+            </p>
+            <p data-pt="Gandhi resumiu numa linha: não a produção em massa, mas a produção pelas massas — os cérebros engenhosos e as mãos habilidosas que todo mundo já tem, apoiados por ferramentas de primeira. É isso que tentamos fazer.">
+              Gandhi put it in one line: not mass production, but production by the masses — the clever brains and skillful hands everyone already has, supported by first-class tools. That is what we try to make.
+            </p>
+            <p data-pt="Tudo o que fazemos é modular. Nada é produzido sem dono, e nada do que você já tem deixa de funcionar quando o núcleo evolui: tornar obsoleta a obsolescência programada.">
+              Everything we make is modular. Nothing is produced without an owner, and nothing you already have stops working when the core evolves: to make programmed obsolescence obsolete.
+            </p>
+            <p data-pt="Nenhum módulo tem mais de cinco partes. Simplicidade é requisito de engenharia, não estilo.">
+              No module has more than five parts. Simplicity is an engineering requirement, not a style.
+            </p>
+            <blockquote>
+              <p data-pt="“A natureza sempre sabe, por assim dizer, onde e quando parar.”">“Nature always, so to speak, knows where and when to stop.”</p>
+              <cite class="mono" data-pt="E. F. Schumacher, <em>O negócio é ser pequeno</em>, cap. 10">E. F. Schumacher, <em>Small Is Beautiful</em>, ch. 10</cite>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section class="secao" id="educacao" data-secao="education" data-secao-pt="educação">
+        <p class="secao-rotulo mono" data-pt="Educação">Education</p>
+        <h2 class="secao-titulo" data-pt="A educação é o nosso maior recurso — mas só se ensinar o que fazer com a vida antes de ensinar como fazer as coisas.">
+          Education is our greatest resource — but only if it teaches what to do with our lives before it teaches how to do things.
+        </h2>
+        <div class="secao-corpo">
+          <blockquote class="secao-citacao">
+            <p data-pt="“Mais educação só pode nos ajudar se produzir mais sabedoria.”">“More education can help us only if it produces more wisdom.”</p>
+            <cite class="mono" data-pt="E. F. Schumacher, <em>O negócio é ser pequeno</em>, cap. 6">E. F. Schumacher, <em>Small Is Beautiful</em>, ch. 6</cite>
+          </blockquote>
+          <div class="secao-texto">
+            <p data-pt="Para Schumacher, “a tarefa da educação seria, antes de tudo, a transmissão de ideias de valor, do que fazer com as nossas vidas”. O saber técnico importa, mas vem em segundo lugar: é imprudente pôr grandes poderes nas mãos de quem não sabe o que fazer com eles.">
+              For Schumacher, “the task of education would be, first and foremost, the transmission of ideas of value, of what to do with our lives.” Know-how matters, but it takes second place: it is foolhardy to put great powers into the hands of people who have no idea what to do with them.
+            </p>
+            <p data-pt="Sentimos isso com força hoje. A inteligência artificial põe um saber técnico enorme nas mãos de todo mundo; o que falta é o juízo para usá-lo bem.">
+              We feel this sharply today. Artificial intelligence puts enormous know-how into everyone’s hands; what is scarce is the judgment to use it well.
+            </p>
+            <p data-pt="Por isso cada ferramenta que fazemos vem com as ideias que a sustentam, e nossa pesquisa é aberta. A biblioteca no fim desta página faz parte do trabalho, não é enfeite.">
+              That is why every tool we make comes with the ideas behind it, and why our research is open. The library at the end of this page is part of the work, not decoration.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="secao" id="propriedade" data-secao="ownership" data-secao-pt="propriedade">
+        <p class="secao-rotulo mono" data-pt="Propriedade">Ownership</p>
+        <h2 class="secao-titulo" data-pt="Quem é dono das ferramentas dá forma ao trabalho. Queremos organizações que sirvam às pessoas que estão nelas, em vez de usá-las.">
+          Whoever owns the tools shapes the work. We want organizations that serve the people in them, instead of using them.
+        </h2>
+        <div class="secao-corpo">
+          <figure class="secao-foto">
+            <img src="assets/ref/campo-1-1100.jpg" width="1100" height="1100" alt="A mountain at dawn seen from inside an open tent" loading="lazy" decoding="async" />
+            <figcaption class="mono" data-pt="Amanhecer visto de uma barraca — foto de referência">Dawn from inside a tent — reference photo</figcaption>
+          </figure>
+          <div class="secao-texto">
+            <p data-pt="Em 1951, Ernest Bader entregou sua empresa química, a Scott Bader, a quem trabalhava nela, reunidos numa Commonwealth. Schumacher viu ali a organização industrial usada “a serviço do homem, em vez de deixar que ela use os homens apenas como meios para enriquecer os donos do capital”.">
+              In 1951, Ernest Bader handed his chemical company, Scott Bader, to the people who worked in it, gathered in a Commonwealth. Schumacher saw in it industrial organization used “as a servant of man, instead of allowing it to use men simply as means to the enrichment of the owners of capital.”
+            </p>
+            <p data-pt="A propriedade, ele observou, foi “substituída por direitos e responsabilidades específicos na administração dos bens”. A família Bader abriu mão de ficar desmedidamente rica, e a empresa não sofreu por isso.">
+              Ownership, he observed, had been “replaced by specific rights and responsibilities in the administration of assets.” The Bader family gave up the chance of becoming inordinately rich, and the company did not suffer for it.
+            </p>
+            <p data-pt="Ferramentas pequenas, projetos abertos e coisas feitas sob encomenda são um começo. A pergunta mais difícil é a quem pertence o trabalho. Estudamos isso em aberto e queremos que nossos laboratórios respondam na prática.">
+              Small tools, open designs and things made on demand are a beginning. The harder question is who the work belongs to. We study it in the open, and want our labs to answer it in practice.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="secao" id="labs" data-secao="labs" data-secao-pt="laboratórios">
+        <p class="secao-rotulo mono" data-pt="Laboratórios">Labs</p>
+        <h2 class="secao-titulo" data-pt="Laboratórios pequenos, cada um perto das pessoas a quem serve. Projetamos e desenvolvemos comunidades. Culturas. Software. Hardware.">
+          Small labs, each close to the people it serves. We design &amp; develop communities. Cultures. Software. Hardware.
+        </h2>
+        <ol class="lista" id="lista-labs"></ol>
+      </section>
+
+      <section class="secao" id="biblioteca" data-secao="library" data-secao-pt="biblioteca">
+        <p class="secao-rotulo mono" data-pt="Biblioteca">Library</p>
+        <h2 class="secao-titulo" data-pt="Uma amostra aleatória do que guardamos no Are.na. A cada visita, outra seleção.">A random sample of what we keep on Are.na. A different selection every visit.</h2>
+        <ol class="galeria" id="lista-biblioteca"></ol>
+        <div class="lista-nota mono">
+          <button type="button" id="embaralhar">↻ <span data-pt="outra seleção">another selection</span></button>
+          <span class="canais">
+            <a href="https://www.are.na/sinco-institute/sinco-institute" target="_blank" rel="noopener">institute</a>
+            <a href="https://www.are.na/sinco-institute/sinco" target="_blank" rel="noopener">sinco</a>
+            <a href="https://www.are.na/sinco-institute/sinco-hardware" target="_blank" rel="noopener">hardware</a>
+            <a href="https://www.are.na/sinco-institute/sinco-software" target="_blank" rel="noopener">software</a>
+            <a href="https://www.are.na/sinco-institute/sinco-social" target="_blank" rel="noopener">social</a>
+            <a href="https://www.are.na/sinco-institute/sincoos" target="_blank" rel="noopener">sincoOS</a>
+            ↗
+          </span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape mono">
+      <span>sinco institute © 2026</span>
+      <a class="selo-88" href="https://ranfren.neocities.org/" target="_blank" rel="noopener"><img src="assets/pensioner.gif" width="88" height="31" alt="pensioner" /></a>
+      <a href="https://www.are.na/sinco-institute" target="_blank" rel="noopener">are.na ↗</a>
+    </footer>
   </body>
 </html>
