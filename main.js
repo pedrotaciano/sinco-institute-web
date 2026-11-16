@@ -1,5 +1,5 @@
 // sinco institute
-// Herói: o logo pequeno em cima e duas frases que se alternam a cada 8 s.
+// Herói: o logo pequeno em cima e uma frase só.
 
 const LABS = [
   {
@@ -262,30 +262,6 @@ function medirHeroi() {
 addEventListener("scroll", medirHeroi, { passive: true });
 addEventListener("resize", medirHeroi);
 
-// ---------- herói: as frases se alternam; o relógio (CSS) mede os 8 s ----------
-
-const frases = [...document.querySelectorAll(".frases .frase")];
-const tracos = [...document.querySelectorAll(".relogio button")];
-
-function mostrarFrase(i) {
-  frases.forEach((f, j) => {
-    f.classList.toggle("ativa", j === i);
-    f.toggleAttribute("aria-hidden", j !== i);
-  });
-  tracos.forEach((t, j) => {
-    t.setAttribute("aria-pressed", String(j === i));
-    t.classList.toggle("cheio", j < i);
-    t.classList.remove("enchendo");
-  });
-  void tracos[i].offsetWidth; // recomeça a animação do traço atual
-  tracos[i].classList.add("enchendo");
-}
-
-tracos.forEach((t, j) => {
-  t.addEventListener("click", () => mostrarFrase(j));
-  t.addEventListener("animationend", () => mostrarFrase((j + 1) % frases.length));
-});
-
 const observaSecoes = new IntersectionObserver(
   (entradas) => {
     for (const e of entradas) {
@@ -303,7 +279,6 @@ secoes.forEach((s) => observaSecoes.observe(s));
 
 aplicarTema(temaAtual());
 medirHeroi();
-mostrarFrase(0);
 montarLabs();
 montarTweak();
 montarBiblioteca();
