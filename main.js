@@ -5,50 +5,37 @@ const LABS = [
   {
     nome: "sinco software",
     cor: "var(--lab-software)", // musgo
-    texto: {
-      en: "Software made with and for communities: tools people can understand and change.",
-      pt: "Software feito com e para comunidades: ferramentas que as pessoas entendem e podem mudar.",
-    },
+    texto: "Software made with and for communities: tools people can understand and change.",
     link: "https://www.are.na/sinco-institute/sinco-software",
     rotuloLink: "are.na ↗",
   },
   {
     nome: "sinco hardware",
     cor: "var(--lab-hardware)", // laranja (terracota no tema terra)
-    texto: {
-      en: "Modular gear, made on demand. First piece: shoulder_bag.(0).",
-      pt: "Equipamento modular, feito sob encomenda. Primeira peça: shoulder_bag.(0).",
-    },
+    texto: "Modular gear, made on demand. First piece: shoulder_bag.(0).",
     link: "https://www.are.na/sinco-institute/sinco-hardware",
     rotuloLink: "are.na ↗",
   },
   {
     nome: "sinco social",
     cor: "var(--lab-social)", // ocre
-    texto: { en: "Communities and cultures: work as something done with other people.", pt: "Comunidades e culturas: o trabalho como coisa feita com os outros." },
+    texto: "Communities and cultures: work as something done with other people.",
     link: "https://www.are.na/sinco-institute/sinco-social",
     rotuloLink: "are.na ↗",
   },
   {
     nome: "sinco surfistas",
     cor: "var(--lab-surfistas)", // mar
-    texto: { en: "A community of surfers.", pt: "Uma comunidade de surfistas." },
+    texto: "A community of surfers.",
     link: "https://www.are.na/sinco-institute/sinco-surfistas",
     rotuloLink: "are.na ↗",
   },
 ];
 
-const UI = {
-  en: {
-    carregando: "loading…",
-    erro: "Couldn’t load the library right now. Try again in a minute.",
-    vazio: "Nothing here yet.",
-  },
-  pt: {
-    carregando: "carregando…",
-    erro: "Não deu para carregar a biblioteca agora. Tenta de novo em um minuto.",
-    vazio: "Ainda não tem nada aqui.",
-  },
+const AVISOS = {
+  carregando: "loading…",
+  erro: "Couldn’t load the library right now. Try again in a minute.",
+  vazio: "Nothing here yet.",
 };
 
 // A biblioteca é uma amostra aleatória dos canais da sinco no Are.na.
@@ -63,36 +50,11 @@ const FONTES = [
 ];
 const POR_PAGINA = 24; // blocos pedidos por canal, numa página sorteada
 const POR_CANAL = 4; // blocos que entram na lista por canal
-const TIPOS = {
-  Link: { en: "link", pt: "link" },
-  Text: { en: "text", pt: "texto" },
-  Image: { en: "image", pt: "imagem" },
-  Attachment: { en: "file", pt: "arquivo" },
-  Embed: { en: "media", pt: "mídia" },
-};
+const TIPOS = new Set(["Link", "Text", "Image", "Attachment", "Embed"]);
 
 const $ = (s) => document.querySelector(s);
 const heroi = $(".heroi");
 const menu = $("#menu");
-
-let lingua = localStorage.getItem("sinco:lingua") === "pt" ? "pt" : "en";
-
-// ---------- língua ----------
-
-const traduz = (v) => (typeof v === "string" ? v : v[lingua]);
-
-function aplicarLingua() {
-  document.documentElement.lang = lingua;
-  document.querySelectorAll("[data-lingua]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lingua === lingua)));
-  document.querySelectorAll("[data-pt]").forEach((el) => {
-    if (el.dataset.en === undefined) el.dataset.en = el.innerHTML.trim();
-    el.innerHTML = lingua === "pt" ? el.dataset.pt : el.dataset.en;
-  });
-  montarLabs();
-  montarTweak();
-  montarBiblioteca();
-  atualizarTrilha();
-}
 
 // ---------- labs ----------
 
@@ -103,7 +65,7 @@ function montarLabs() {
     (n, i) => `<li style="--cor:${n.cor}"><div class="linha">
       <span class="linha-n mono">${String(i + 1).padStart(2, "0")}</span>
       <span class="linha-nome">${peca}${n.nome}</span>
-      <span class="linha-texto">${traduz(n.texto)}</span>
+      <span class="linha-texto">${n.texto}</span>
       <a class="linha-link mono" href="${n.link}" target="_blank" rel="noopener">${n.rotuloLink}</a>
     </div></li>`
   ).join("");
@@ -164,7 +126,7 @@ async function amostra(fonte, totais) {
     resposta = await pagina(fonte, sortear(resposta.meta.total_count));
   }
   totais[fonte.canal] = resposta.meta.total_count;
-  const uteis = resposta.data.filter((b) => TIPOS[b.type] && b.state === "available").map((b) => resumir(b, fonte));
+  const uteis = resposta.data.filter((b) => TIPOS.has(b.type) && b.state === "available").map((b) => resumir(b, fonte));
   return embaralhar(uteis.filter((b) => b.titulo || b.imagem)).slice(0, POR_CANAL);
 }
 
@@ -205,9 +167,9 @@ function quadro(b) {
 function montarBiblioteca() {
   const galeria = $("#lista-biblioteca");
   const aviso = (t) => `<li class="galeria-aviso mono">${t}</li>`;
-  if (blocos === null) galeria.innerHTML = aviso(UI[lingua].carregando);
-  else if (blocos === "erro") galeria.innerHTML = aviso(UI[lingua].erro);
-  else if (!blocos.length) galeria.innerHTML = aviso(UI[lingua].vazio);
+  if (blocos === null) galeria.innerHTML = aviso(AVISOS.carregando);
+  else if (blocos === "erro") galeria.innerHTML = aviso(AVISOS.erro);
+  else if (!blocos.length) galeria.innerHTML = aviso(AVISOS.vazio);
   else
     galeria.innerHTML = blocos
       .map(
@@ -226,7 +188,7 @@ const secoes = [...document.querySelectorAll(".secao")];
 let secaoAtual = secoes[0];
 
 function atualizarTrilha() {
-  $("#trilha-secao").textContent = lingua === "pt" ? secaoAtual.dataset.secaoPt : secaoAtual.dataset.secao;
+  $("#trilha-secao").textContent = secaoAtual.dataset.secao;
   $("#trilha").href = `#${secaoAtual.id}`;
 }
 
@@ -235,13 +197,13 @@ function atualizarTrilha() {
 
 // o primeiro é o padrão (o mesmo do data-tema no <html>)
 const TEMAS = [
-  { id: "chumbo", nome: { en: "lead", pt: "chumbo" } },
-  { id: "cinza", nome: { en: "grey", pt: "cinza" } },
-  { id: "terra", nome: { en: "earth", pt: "terra" } },
-  { id: "musgo", nome: { en: "moss", pt: "musgo" } },
-  { id: "argila", nome: { en: "clay", pt: "argila" } },
-  { id: "tabaco", nome: { en: "tobacco", pt: "tabaco" } },
-  { id: "noite", nome: { en: "night", pt: "noite" } },
+  { id: "chumbo", nome: "lead" },
+  { id: "cinza", nome: "grey" },
+  { id: "terra", nome: "earth" },
+  { id: "musgo", nome: "moss" },
+  { id: "argila", nome: "clay" },
+  { id: "tabaco", nome: "tobacco" },
+  { id: "noite", nome: "night" },
 ];
 
 const temaAtual = () => document.documentElement.dataset.tema || TEMAS[0].id;
@@ -251,7 +213,7 @@ function montarTweak() {
   $("#tweak-lista").innerHTML = TEMAS.map(
     (t) => `<li><button type="button" data-escolher="${t.id}" aria-pressed="${t.id === temaAtual()}">
       <span class="amostra" data-tema="${t.id}"><b>Aa</b><span>${labs}</span></span>
-      <span class="tweak-nome">${t.nome[lingua]}</span>
+      <span class="tweak-nome">${t.nome}</span>
     </button></li>`
   ).join("");
 }
@@ -264,7 +226,7 @@ function aplicarTema(id, mostrar = false) {
   sessionStorage.setItem("sinco:tema", tema.id);
   document.querySelectorAll("[data-escolher]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.escolher === tema.id)));
   $('meta[name="theme-color"]').content = getComputedStyle(raiz).getPropertyValue("--fundo").trim();
-  if (mostrar) avisar(`${TEMAS.indexOf(tema) + 1}/${TEMAS.length} · ${tema.nome[lingua]}`);
+  if (mostrar) avisar(`${TEMAS.indexOf(tema) + 1}/${TEMAS.length} · ${tema.nome}`);
 }
 
 $("#tweak-lista").addEventListener("click", (e) => {
@@ -288,14 +250,6 @@ window.addEventListener("keydown", (e) => {
   const passo = e.shiftKey ? -1 : 1;
   aplicarTema(TEMAS[(i + passo + TEMAS.length) % TEMAS.length].id, true);
 });
-
-document.querySelectorAll("[data-lingua]").forEach((b) =>
-  b.addEventListener("click", () => {
-    lingua = b.dataset.lingua;
-    localStorage.setItem("sinco:lingua", lingua);
-    aplicarLingua();
-  })
-);
 
 menu.addEventListener("click", (e) => {
   if (e.target.closest("a")) menu.hidePopover();
@@ -350,5 +304,8 @@ secoes.forEach((s) => observaSecoes.observe(s));
 aplicarTema(temaAtual());
 medirHeroi();
 mostrarFrase(0);
-aplicarLingua();
+montarLabs();
+montarTweak();
+montarBiblioteca();
+atualizarTrilha();
 carregarBiblioteca();

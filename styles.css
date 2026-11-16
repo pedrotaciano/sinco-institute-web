@@ -297,25 +297,6 @@ body.lendo .trilha {
   padding: 0 11px;
 }
 
-.linguas {
-  grid-column: 3;
-  justify-self: end;
-  display: flex;
-  gap: 8px;
-  height: 26px;
-  align-items: center;
-  padding-right: 4px;
-}
-
-.linguas button {
-  color: var(--claro);
-  transition: color 200ms ease;
-}
-
-.linguas button[aria-pressed="true"] {
-  color: var(--ink);
-}
-
 /* menu */
 
 .menu {
@@ -370,11 +351,12 @@ body.lendo .trilha {
 /* tweak de tema */
 
 .tweak-botao {
+  grid-column: 3;
+  justify-self: end;
   display: grid;
   place-items: center;
-  width: 20px;
-  height: 20px;
-  margin-left: 4px;
+  width: 26px;
+  height: 26px;
   transition: transform 160ms var(--ease-out);
 }
 
