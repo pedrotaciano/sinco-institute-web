@@ -54,24 +54,6 @@
   --lab-surfistas: #36676a;
 }
 
-/* creme: a paleta digital do briefing, igual ao site de hoje */
-[data-tema="creme"] {
-  --fundo: #fff9f4;
-  --papel: #fffcf8;
-  --ink: #403c2c;
-  --cinza: #9c957c;
-  --claro: #d6d0bd;
-  --pontilhado: #bdb6a0;
-  --vidro: rgb(255 252 247 / 0.7);
-  --vidro-escuro: rgb(64 60 44 / 0.36);
-  --escuro-opaco: #403c2c;
-  --grao: 0.04;
-  --lab-software: #6e8f4b;
-  --lab-hardware: #ff5900;
-  --lab-social: #c8962e;
-  --lab-surfistas: #2f7a8a;
-}
-
 /* musgo: verde pálido de líquen */
 [data-tema="musgo"] {
   --fundo: #d8dccb;
@@ -106,60 +88,6 @@
   --lab-hardware: #a8431f;
   --lab-social: #b07a25;
   --lab-surfistas: #2f6466;
-}
-
-/* neblina: cinza frio, de manhã cedo */
-[data-tema="neblina"] {
-  --fundo: #e3e8ea;
-  --papel: #f0f3f4;
-  --ink: #1c2428;
-  --cinza: #84919a;
-  --claro: #bcc6cc;
-  --pontilhado: #a3aeb5;
-  --vidro: rgb(244 247 248 / 0.66);
-  --vidro-escuro: rgb(28 36 40 / 0.34);
-  --escuro-opaco: #33404a;
-  --grao: 0.05;
-  --lab-software: #5d7a52;
-  --lab-hardware: #d9572b;
-  --lab-social: #b8923a;
-  --lab-surfistas: #2c6f86;
-}
-
-/* papel: branco e preto, sem tom */
-[data-tema="papel"] {
-  --fundo: #ffffff;
-  --papel: #ffffff;
-  --ink: #000000;
-  --cinza: #8c8c8c;
-  --claro: #cfcfcf;
-  --pontilhado: #b3b3b3;
-  --vidro: rgb(255 255 255 / 0.72);
-  --vidro-escuro: rgb(0 0 0 / 0.32);
-  --escuro-opaco: #222222;
-  --grao: 0.03;
-  --lab-software: #3d8b37;
-  --lab-hardware: #ff4d00;
-  --lab-social: #e0a100;
-  --lab-surfistas: #0077b6;
-}
-
-/* laranja: o laranja da sinco hardware no topo */
-[data-tema="laranja"] {
-  --fundo: #ff5900;
-  --papel: #f6f1ea;
-  --ink: #1b1a16;
-  --cinza: #7a4a2e;
-  --claro: #c9a58c;
-  --pontilhado: #b08a70;
-  --vidro: rgb(255 240 228 / 0.6);
-  --vidro-escuro: rgb(27 26 22 / 0.4);
-  --escuro-opaco: #1b1a16;
-  --grao: 0.06;
-  --lab-software: #3f5f2a;
-  --lab-hardware: #c43f00;
-  --lab-social: #a67412;
-  --lab-surfistas: #1f5f6b;
 }
 
 /* chumbo: o cinza chumbo do produto */
@@ -199,26 +127,6 @@
   --lab-hardware: #e2733f;
   --lab-social: #d9a94a;
   --lab-surfistas: #6fa6a8;
-  color-scheme: dark;
-}
-
-/* cianotipia: azul da prússia, como cópia heliográfica */
-[data-tema="cianotipia"] {
-  --fundo: #173a63;
-  --papel: #1b426e;
-  --ink: #eef3f8;
-  --cinza: #9db2c9;
-  --claro: #4a6688;
-  --pontilhado: #6a83a3;
-  --vidro: rgb(30 66 106 / 0.6);
-  --vidro-escuro: rgb(255 255 255 / 0.14);
-  --escuro-opaco: #0f2a4a;
-  --grao: 0.1;
-  --mistura: soft-light;
-  --lab-software: #a9d18e;
-  --lab-hardware: #ffb38a;
-  --lab-social: #f2d48a;
-  --lab-surfistas: #9fe0ee;
   color-scheme: dark;
 }
 
@@ -674,7 +582,14 @@ kbd {
   }
 }
 
+/* as duas frases ocupam a mesma célula e se alternam */
+.frases {
+  display: grid;
+  justify-items: center;
+}
+
 .frase {
+  grid-area: 1 / 1;
   max-width: 24ch;
   font-size: clamp(28px, 3.7vw, 56px);
   font-weight: 400;
@@ -682,6 +597,80 @@ kbd {
   letter-spacing: -0.03em;
   text-align: center;
   text-wrap: balance;
+  opacity: 0;
+  filter: blur(6px);
+  translate: 0 6px;
+  visibility: hidden;
+  transition: opacity 600ms var(--ease-out), filter 600ms var(--ease-out), translate 600ms var(--ease-out), visibility 0s 600ms;
+}
+
+.frase.ativa {
+  opacity: 1;
+  filter: none;
+  translate: none;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.frase-citacao {
+  max-width: 30ch;
+  font-size: clamp(22px, 2.6vw, 40px);
+  line-height: 1.1;
+}
+
+.frase-citacao cite {
+  display: block;
+  margin-top: 18px;
+  font-style: normal;
+  color: var(--cinza);
+}
+
+/* o relógio: cada traço enche em 8 s; ao encher, passa para a próxima frase */
+.relogio {
+  display: flex;
+  gap: 6px;
+}
+
+.relogio button {
+  display: grid;
+  align-items: center;
+  width: 28px;
+  height: 20px;
+}
+
+.relogio i {
+  height: 2px;
+  border-radius: 1px;
+  overflow: hidden;
+  background: var(--claro);
+}
+
+.relogio i::after {
+  content: "";
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.relogio .cheio i::after {
+  transform: scaleX(1);
+}
+
+.relogio .enchendo i::after {
+  animation: encher 8s linear forwards;
+}
+
+/* longe do herói, o relógio para */
+body.lendo .relogio i::after {
+  animation-play-state: paused;
+}
+
+@keyframes encher {
+  to {
+    transform: scaleX(1);
+  }
 }
 
 .tinta {
@@ -705,6 +694,7 @@ kbd {
   inset: auto 0 0;
   display: grid;
   justify-items: center;
+  gap: 14px;
   padding: 0 var(--margem) max(32px, env(safe-area-inset-bottom));
 }
 
@@ -1096,7 +1086,7 @@ cite {
     text-overflow: ellipsis;
   }
 
-  .frase {
+  .frase:not(.frase-citacao) {
     max-width: 18ch;
   }
 
@@ -1135,6 +1125,11 @@ cite {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .frase {
+    filter: none;
+    translate: none;
   }
 }
 
