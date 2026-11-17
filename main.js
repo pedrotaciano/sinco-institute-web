@@ -5,27 +5,31 @@ const LABS = [
   {
     nome: "sinco software",
     cor: "var(--lab-software)", // musgo
+    gancho: "Code you can read is code you can trust.",
     texto: "Software made with and for communities: tools people can understand and change.",
-    link: "https://www.are.na/sinco-institute/sinco-software",
-    rotuloLink: "are.na ↗",
+    link: "https://software.sinco.institute/",
+    rotuloLink: "software.sinco.institute ↗",
   },
   {
     nome: "sinco hardware",
     cor: "var(--lab-hardware)", // laranja (terracota no tema terra)
+    gancho: "What you cannot repair, you do not own.",
     texto: "Modular gear, made on demand. First piece: shoulder_bag.(0).",
-    link: "https://www.are.na/sinco-institute/sinco-hardware",
-    rotuloLink: "are.na ↗",
+    link: "https://sinco-hardware.vercel.app/",
+    rotuloLink: "sinco-hardware.vercel.app ↗",
   },
   {
     nome: "sinco social",
     cor: "var(--lab-social)", // ocre
-    texto: "A zero-trust social network, against platforms that concentrate power in a few hands and turn people into machine minders — what Schumacher warned about fifty years ago.",
+    gancho: "Your site = your soul.",
+    texto: "A zero-trust social network where your profile is a site of your own, against platforms that concentrate power in a few hands and turn people into machine minders — what Schumacher warned about fifty years ago.",
     link: "https://www.are.na/sinco-institute/sinco-social",
     rotuloLink: "are.na ↗",
   },
   {
     nome: "sinco surfistas",
     cor: "var(--lab-surfistas)", // mar
+    gancho: "The sea keeps its own time.",
     texto: "A counterculture page on Instagram.",
     link: "https://www.are.na/sinco-institute/sinco-surfistas",
     rotuloLink: "are.na ↗",
@@ -42,7 +46,7 @@ const AVISOS = {
 const corDoLab = (nome) => LABS.find((l) => l.nome === nome)?.cor;
 const FONTES = [
   { canal: "sinco-institute", nome: "institute" },
-  { canal: "sinco", nome: "sinco" },
+  { canal: "sinco", nome: "sincoⓈ" },
   { canal: "sinco-hardware", nome: "hardware", cor: corDoLab("sinco hardware") },
   { canal: "sinco-software", nome: "software", cor: corDoLab("sinco software") },
   { canal: "sinco-social", nome: "social", cor: corDoLab("sinco social") },
@@ -60,14 +64,14 @@ const menu = $("#menu");
 
 const peca = `<svg class="peca" viewBox="0 0 55.5366 22" aria-hidden="true"><use href="#sinco" /></svg>`;
 
+// cada lab é um cartão: nome em cima, a frase do lab no meio, o texto e o link embaixo
 function montarLabs() {
   $("#lista-labs").innerHTML = LABS.map(
-    (n, i) => `<li style="--cor:${n.cor}"><div class="linha">
-      <span class="linha-n mono">${String(i + 1).padStart(2, "0")}</span>
-      <span class="linha-nome">${peca}${n.nome}</span>
-      <span class="linha-texto">${n.texto}</span>
-      <a class="linha-link mono" href="${n.link}" target="_blank" rel="noopener">${n.rotuloLink}</a>
-    </div></li>`
+    (n, i) => `<li style="--cor:${n.cor}"><a class="cartao" href="${n.link}" target="_blank" rel="noopener">
+      <span class="cartao-topo"><span class="cartao-nome">${peca}${n.nome}</span><span class="cartao-n mono">${String(i + 1).padStart(2, "0")}</span></span>
+      <span class="cartao-gancho">${n.gancho}</span>
+      <span class="cartao-pe"><span class="cartao-texto">${n.texto}</span><span class="cartao-link mono">${n.rotuloLink}</span></span>
+    </a></li>`
   ).join("");
 }
 

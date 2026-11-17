@@ -728,57 +728,75 @@ cite {
   color: var(--cinza);
 }
 
-/* listas (labs, biblioteca) */
+/* labs: um cartão por lab, com a frase do lab no meio */
 
-.lista {
+.cartoes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--margem);
   margin-top: clamp(40px, 5vw, 72px);
 }
 
-.lista li {
-  background: var(--pontos) 0 100% / 4px 1px repeat-x;
-}
-
-.linha {
+.cartao {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: var(--margem);
-  align-items: baseline;
-  width: 100%;
-  padding: 14px 0 15px;
-  text-align: left;
+  grid-template-rows: auto 1fr auto;
+  gap: 28px;
+  height: 100%;
+  min-height: clamp(340px, 30vw, 440px);
+  padding: 14px 16px 16px;
+  border-radius: 3px;
+  background: var(--fundo);
+  transition: background-color 200ms ease, transform 160ms var(--ease-out);
 }
 
-.linha-n {
-  grid-column: 1;
-  color: var(--cinza);
+.cartao:active {
+  transform: scale(0.99);
 }
 
-.linha-nome {
-  grid-column: 2 / 6;
+.cartao-topo {
   display: flex;
-  /* a linha alinha pelo texto do título, não pela imagem */
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.cartao-nome {
+  display: flex;
+  /* o nome alinha pelo texto, não pela peça */
   align-items: baseline;
   gap: 10px;
   font-size: clamp(17px, 1.3vw, 18.72px);
   letter-spacing: -0.015em;
 }
 
-.linha-nome > svg {
+.cartao-nome > svg {
   align-self: center;
 }
 
-.linha-texto {
-  grid-column: 7 / 11;
+.cartao-n,
+.cartao-link {
+  color: var(--cinza);
+  transition: color 160ms ease;
+}
+
+.cartao-gancho {
+  align-self: start;
+  max-width: 14ch;
+  font-size: clamp(22px, 2.1vw, 30px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.cartao-pe {
+  display: grid;
+  gap: 14px;
+}
+
+.cartao-texto {
   font-size: clamp(15px, 1.1vw, 16px);
   line-height: 1.32;
   color: color-mix(in oklab, var(--ink) 72%, transparent);
-}
-
-.linha-link {
-  grid-column: 11 / 13;
-  justify-self: end;
-  color: var(--cinza);
-  transition: color 160ms ease;
 }
 
 .peca {
@@ -789,16 +807,32 @@ cite {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .linha-link:hover {
+  .cartao:hover {
+    background: color-mix(in oklab, var(--cor) 10%, var(--fundo));
+  }
+
+  .cartao:hover .cartao-link {
     color: var(--ink);
   }
+}
 
-  .lista li[style] {
-    transition: background-color 200ms ease;
+@media (max-width: 1100px) {
+  .cartoes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .cartoes {
+    grid-template-columns: 1fr;
   }
 
-  .lista li[style]:hover {
-    background-color: color-mix(in oklab, var(--cor) 8%, transparent);
+  .cartao {
+    min-height: 0;
+  }
+
+  .cartao-gancho {
+    max-width: none;
   }
 }
 
@@ -990,18 +1024,13 @@ cite {
     max-width: 18ch;
   }
 
-  .secao-corpo,
-  .linha {
+  .secao-corpo {
     grid-template-columns: 1fr;
   }
 
   .secao-foto,
   .secao-citacao,
-  .secao-texto,
-  .linha-n,
-  .linha-nome,
-  .linha-texto,
-  .linha-link {
+  .secao-texto {
     grid-column: 1;
   }
 
@@ -1011,14 +1040,6 @@ cite {
 
   .secao-texto {
     margin-top: 28px;
-  }
-
-  .linha {
-    gap: 6px;
-  }
-
-  .linha-link {
-    justify-self: start;
   }
 }
 
